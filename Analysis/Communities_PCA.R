@@ -32,6 +32,9 @@ format(prin.Comp.var, scientific = FALSE)
 PCvar.prop <- prin.Comp.var/sum(prin.Comp.var)
 format(PCvar.prop, scientific = FALSE)
 
+# Summarize the data
+summary(prin.Comp)
+
 # Output Scree Plot
 plot(PCvar.prop, xlab = "Principal Components",
      ylab = "Proportion of Explained Variance", type = "o")
