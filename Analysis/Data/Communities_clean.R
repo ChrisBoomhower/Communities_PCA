@@ -95,3 +95,7 @@ ggplot(data = comm2.melt, mapping = aes(x = value)) +
 
 # Observe correlations between variables
 write.csv(cor(comm2[sapply(comm2, is.numeric)]), file = "communities_Correlations.csv")
+
+# Separate explanatory variables and dependent variable
+comm2.dep <- comm2$ViolentCrimesPerPop
+comm2.expl <- subset(comm2, select = -ViolentCrimesPerPop)
