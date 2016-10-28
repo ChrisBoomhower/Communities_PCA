@@ -10,5 +10,6 @@
 setwd("Analysis/Data/")
 source('Communities_clean.R', echo = TRUE)
 setwd('../')
-
+source('Communities_PCA.R', echo = TRUE)
+source('Communities_PCA_CV.R', echo = TRUE)
 setwd('../')

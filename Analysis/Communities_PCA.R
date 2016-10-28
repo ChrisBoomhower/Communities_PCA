@@ -9,8 +9,9 @@
 
 require(formattable)
 
-# Create principal components
-prin.Comp <- prcomp(comm2.expl, center = TRUE, scale. = TRUE)
+# Create principal components (CURRENTLY USING HALF OF ORIGINAL DATA VIA test.expl.
+# TO USE FULL DATA SET REPLACE test.expl WITH comm2.expl)
+prin.Comp <- prcomp(test.expl, center = TRUE, scale. = TRUE)
 prin.Comp$center # Output variable means
 prin.Comp$scale  # Output variable scale values
 

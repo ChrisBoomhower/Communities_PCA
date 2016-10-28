@@ -96,6 +96,18 @@ ggplot(data = comm2.melt, mapping = aes(x = value)) +
 # Observe correlations between variables
 write.csv(cor(comm2[sapply(comm2, is.numeric)]), file = "communities_Correlations.csv")
 
+# Create training and test data sets
+set.seed(10)
+trainSamp <- sample(seq_len(nrow(comm2)), size = (nrow(comm2))/2)
+train <- comm2[trainSamp,]
+test <- comm2[-trainSamp,]
+
 # Separate explanatory variables and dependent variable
 comm2.dep <- comm2$ViolentCrimesPerPop
 comm2.expl <- subset(comm2, select = -ViolentCrimesPerPop)
+
+train.dep <- train$ViolentCrimesPerPop
+train.expl <- subset(train, select = -ViolentCrimesPerPop)
+
+test.dep <- test$ViolentCrimesPerPop
+test.expl <- subset(test, select = -ViolentCrimesPerPop)
