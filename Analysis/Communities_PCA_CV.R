@@ -7,6 +7,30 @@
 ## Communities_PCA_CV.R
 ##############################
 
+require(pls)
+
+set.seed(10)
+
+PCR.out <- function(mymodel){
+    print(summary(mymodel))
+    
+    validationplot(mymodel) #Plot root mean squared error
+    validationplot(mymodel,val.type="MSEP") #Plot mean squared error
+    validationplot(mymodel,val.type="R2") #Plot R2
+    predplot(mymodel) #Plot predicted vs. measured values
+}
+
+comm2_pcr_cv <- pcr(ViolentCrimesPerPop~., data = comm2, scale = TRUE, validation = "LOO")#, segments = 10)
+PCR.out(comm2_pcr_cv)
+
+comm2_pcr <- pcr(ViolentCrimesPerPop~., data = comm2, scale = TRUE)
+comm2_cv  <- crossval(comm2_pcr, length.seg = 1)
+comm2_cv$validation$PRESS
+PCR.out(comm2_pcr)
+
+comm2_pcr.ncomp <- pcr(ViolentCrimesPerPop~., data = comm2, ncomp = 7, scale = TRUE, validation = "none")#, segments = 10)
+PCR.out(comm2_pcr.ncomp)
+
 # HAD BEEN TRYING SOMETHING OUT IN AN EXAMPLE I WAS LOOKING AT
 # require(rpart)
 # 

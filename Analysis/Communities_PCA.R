@@ -42,3 +42,5 @@ plot(PCvar.prop, xlab = "Principal Components",
 # Output Cumulative Variance Plot
 plot(cumsum(PCvar.prop), xlab = "Principal Components",
      ylab = "Cumulative Proportion of Explained Variance", type = "o")
+
+# I THINK THE FIRST 7 PCs SHOULD BE USED BASED ON THE PLOT RESULTS
