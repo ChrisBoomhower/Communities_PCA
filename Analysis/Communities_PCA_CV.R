@@ -9,8 +9,10 @@
 
 require(pls)
 
+# Set seed for repeatability
 set.seed(10)
 
+# Function to provide output plots of PCR model
 PCR.out <- function(mymodel){
     print(summary(mymodel))
     
@@ -20,32 +22,17 @@ PCR.out <- function(mymodel){
     predplot(mymodel) #Plot predicted vs. measured values
 }
 
-comm2_pcr_cv <- pcr(ViolentCrimesPerPop~., data = comm2, scale = TRUE, validation = "LOO")#, segments = 10)
-PCR.out(comm2_pcr_cv)
+# Commented out because would rather see PRESS values than coefficent of variance (cv) values for cross-validation
+# comm2_pcr_cv <- pcr(ViolentCrimesPerPop~., data = comm2, scale = TRUE, validation = "LOO")#, segments = 10)
+# PCR.out(comm2_pcr_cv)
 
+# Perform PCR with leave-one-out cross-validation (PRESS statistic) to see how many components PCR identifies as appropriate
 comm2_pcr <- pcr(ViolentCrimesPerPop~., data = comm2, scale = TRUE)
-comm2_cv  <- crossval(comm2_pcr, length.seg = 1)
-comm2_cv$validation$PRESS
+comm2_cv  <- crossval(comm2_pcr, length.seg = 1) #Cross-validate using leave-one-out
+comm2_cv$validation$PRESS #NOTICE PRESS VALUE DECREASES THROUGH 15 PCs AND THEN RISES AT 16 PCs
 PCR.out(comm2_pcr)
+#CROSS-VALIDATION PROCEDURE IDENTIFIES 15 PCs AS BEING THE APPROPRIATE NUMBER OF COMPONENTS
 
-comm2_pcr.ncomp <- pcr(ViolentCrimesPerPop~., data = comm2, ncomp = 7, scale = TRUE, validation = "none")#, segments = 10)
+# Observe PCR results for first 15 components
+comm2_pcr.ncomp <- pcr(ViolentCrimesPerPop~., data = comm2, ncomp = 15, scale = TRUE, validation = "none")#, segments = 10)
 PCR.out(comm2_pcr.ncomp)
-
-# HAD BEEN TRYING SOMETHING OUT IN AN EXAMPLE I WAS LOOKING AT
-# require(rpart)
-# 
-# # Add dependent variable back into training set and select only first 6 PCs
-# train.data <- data.frame(train.dep, prin.Comp$x)
-# train.data <- train.data[,1:7]
-# 
-# # Process decision tree
-# rpart.model <- rpart(train.dep ~ ., data = train.data, method = "anova")
-# rpart.model
-# 
-# # Transform test data set into PCA
-# test.data <- predict(prin.Comp, newdata = subset(test, select = -ViolentCrimesPerPop))
-# test.data <- as.data.frame(test.data)
-# test.data <- test.data[,1:6]
-# 
-# #make prediction on test data
-# predict(rpart.model, test.data)

@@ -8,6 +8,7 @@
 ##############################
 
 require(formattable)
+# require(ggplot2)
 
 # Create principal components (CURRENTLY USING HALF OF ORIGINAL DATA VIA test.expl.
 # TO USE FULL DATA SET REPLACE test.expl WITH comm2.expl)
@@ -44,3 +45,13 @@ plot(cumsum(PCvar.prop), xlab = "Principal Components",
      ylab = "Cumulative Proportion of Explained Variance", type = "o")
 
 # I THINK THE FIRST 7 PCs SHOULD BE USED BASED ON THE PLOT RESULTS
+# theta <- seq(0,2*pi,length.out = 100)
+# circle <- data.frame(x = cos(theta), y = sin(theta))
+# p <- ggplot(circle,aes(x,y)) + geom_path()
+# 
+# loadings <- data.frame(prin.Comp$rotation, 
+#                        .names = row.names(prin.Comp$rotation))
+# p + geom_text(data=loadings, 
+#               mapping=aes(x = PC1, y = PC2, label = .names, colour = .names)) +
+#     coord_fixed(ratio=1) +
+#     labs(x = "PC1", y = "PC2") + theme(legend.position="none")
