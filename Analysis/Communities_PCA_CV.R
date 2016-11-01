@@ -51,4 +51,4 @@ RMSEP(train_pcr.ncomp, newdata = test)
 
 # Predict ViolentCrimesPerPop using principal components model (currently comparing 7 and 15 PCs)
 formattable(as.data.frame(predict(train_pcr.ncomp, ncomp = c(7,15), newdata = test)))
-predplot(train_pcr.ncomp, ncomp = 15, newdata = test, line = TRUE)
+predplot(train_pcr.ncomp, ncomp = c(7,15), newdata = test, line = TRUE)
