@@ -7,8 +7,6 @@
 ## Communities_PCA_CV.R
 ##############################
 
-require(pls)
-
 # Set seed for repeatability
 set.seed(10)
 

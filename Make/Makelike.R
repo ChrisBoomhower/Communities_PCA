@@ -7,6 +7,11 @@
 ## Makelike.R
 ##############################
 
+require(reshape2)
+require(ggplot2)
+require(formattable)
+require(pls)
+
 setwd("Analysis/Data/")
 source('Communities_clean.R', echo = TRUE)
 setwd('../')

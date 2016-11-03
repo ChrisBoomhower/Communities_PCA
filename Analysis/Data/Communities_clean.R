@@ -7,11 +7,7 @@
 ## Communities_clean.R
 ##############################
 
-require(reshape2)
-require(ggplot2)
-
-#setwd("C:/Users/Owner/OneDrive for Business/Semester_2/Experimental Stats II (MSDS 6372)/Project 2/")
-
+# Import data
 comm <- read.table("communities.data", sep = ",", stringsAsFactors = FALSE)
 comm1 <- comm
 
