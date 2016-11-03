@@ -38,14 +38,25 @@ PC.summary <- data.frame(Eigenvalue = prin.Comp.var, Variance.Proportion = PCvar
 formattable(PC.summary)
 
 # Output Scree Plot
-plot(PCvar.prop, xlab = "Principal Components",
-     ylab = "Proportion of Explained Variance", type = "o", col = "dodgerblue2",
-     main = "Scree Plot")
+# plot(PCvar.prop, xlab = "Principal Components",
+#      ylab = "Proportion of Explained Variance", type = "o", col = "dodgerblue2",
+#      main = "Scree Plot")
+
+fviz_screeplot(prin.Comp, ncp = 88, barfill = "dodgerblue2", linecolor = "firebrick", addlabels = TRUE)
 
 # Output Cumulative Variance Plot
-plot(cumsum(PCvar.prop), xlab = "Principal Components",
-     ylab = "Cumulative Proportion of Explained Variance", type = "o", col = "darkorchid3",
-     main = "Cumulative Variance Plot")
+# plot(cumsum(PCvar.prop), xlab = "Principal Components",
+#      ylab = "Cumulative Proportion of Explained Variance", type = "o", col = "darkorchid3",
+#      main = "Cumulative Variance Plot")
+
+names(prin.Comp.var) <- seq(1,88,1)
+
+pareto.chart(prin.Comp.var[1:88], xlab = "Principal Components",
+             ylab = "Explained Variance",
+             ylab2 = "Cumulative Percentage of Explained Variance",
+             main = "Cumulative Variance Plot",
+             col = terrain.colors(length(prin.Comp.var[1:20])),
+             cumperc = seq(0, 100, by = 25))
 
 # I THINK THE FIRST 7 PCs SHOULD BE USED BASED ON THE PLOT RESULTS
 # theta <- seq(0,2*pi,length.out = 100)

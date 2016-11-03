@@ -11,6 +11,8 @@ require(reshape2)
 require(ggplot2)
 require(formattable)
 require(pls)
+require(factoextra)
+require(qcc)
 
 setwd("Analysis/Data/")
 source('Communities_clean.R', echo = TRUE)
