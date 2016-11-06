@@ -27,14 +27,28 @@ PCR.out(train_pcr_cv)
 # Perform PCR with leave-one-out cross-validation (PRESS statistic) to see how many components PCR identifies as appropriate
 train_pcr <- pcr(ViolentCrimesPerPop~., data = train, scale = TRUE)
 train_cv  <- crossval(train_pcr, length.seg = 1) #Cross-validate using leave-one-out
-train_cv$validation$PRESS #NOTICE PRESS VALUE DECREASES THROUGH 15 PCs AND THEN RISES AT 16 PCs
+train_cv_melt <- melt(train_cv$validation$PRESS)
+names(train_cv_melt) <- c("Response.Var", "PC", "PRESS")
+formattable(train_cv_melt) #NOTICE PRESS VALUE DECREASES THROUGH 15 PCs AND THEN RISES AT 16 PCs
 PCR.out(train_pcr)
 #CROSS-VALIDATION PROCEDURE IDENTIFIES 15 PCs AS BEING THE APPROPRIATE NUMBER OF COMPONENTS
 
-# Observe PCR results for first 15 components
-train_pcr.ncomp <- pcr(ViolentCrimesPerPop~., data = train, ncomp = 15, scale = TRUE, validation = "none")#, segments = 10)
+# Observe PCR results for first 20 components
+train_pcr.ncomp <- pcr(ViolentCrimesPerPop~., data = train, ncomp = 20, scale = TRUE, validation = "none")#, segments = 10)
 PCR.out(train_pcr.ncomp)
-R2(train_pcr.ncomp) # Output R^2 (unadjusted) for all PCs
+
+# Calculate R^2 and adjusted R^2
+Rsqr <- R2(train_pcr.ncomp)
+Rsqr.adj <- as.vector(1-(1-Rsqr$val)*(803/(804-Rsqr$comps-1))) # Adjusted R^2 calculation
+Rsqr.data <- data.frame(Rsqr$comps, Rsqr$val[1:21], Rsqr.adj)
+names(Rsqr.data) <- c("PC", "Rsqr", "Rsqr.adj")
+formattable(Rsqr.data)
+
+# Plot adjusted R^2
+ggplot(data=Rsqr.data, aes(x=PC, y=Rsqr.adj, group=1)) +
+    geom_line(colour="firebrick", size=1) + 
+    geom_point(colour="dodgerblue2", size=3, shape=21, fill="white") +
+    ggtitle("Adjusted-R-Squared Values")
 
 # Observe loadings again, but in plot form
 plot(train_pcr.ncomp, "loadings", comps = 1:2, legendpos = "topright", xlab = "Variables by Number",
@@ -49,4 +63,4 @@ RMSEP(train_pcr.ncomp, newdata = test)
 
 # Predict ViolentCrimesPerPop using principal components model (currently comparing 7 and 15 PCs)
 formattable(as.data.frame(predict(train_pcr.ncomp, ncomp = c(7,15), newdata = test)))
-predplot(train_pcr.ncomp, ncomp = c(7,15), newdata = test, line = TRUE)
+predplot(train_pcr.ncomp, ncomp = c(7,15), newdata = test, line = TRUE, col = "dodgerblue2")
